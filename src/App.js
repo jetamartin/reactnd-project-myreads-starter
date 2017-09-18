@@ -14,6 +14,11 @@ class BooksApp extends React.Component {
      */
   }
 
+  updateBookShelf = (book) => { return (event) => {
+        book.shelf = event.target.value
+        this.setState({book: book});
+  } }
+
   // API request to get books from DB
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
@@ -25,6 +30,7 @@ class BooksApp extends React.Component {
       <div className="app">
         <DisplayBookshelf
           books={this.state.books}
+          changeShelf={this.updateBookShelf}
         />
       </div>
     )

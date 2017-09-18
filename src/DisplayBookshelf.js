@@ -5,21 +5,16 @@ import BookShelfChanger from './BookShelfChanger'
 
 class DisplayBookshelf extends Component {
   static propTypes = {
-		books: PropTypes.array.isRequired
+		books: PropTypes.array.isRequired,
+    changeShelf: PropTypes.func.isRequired
 	}
 
-
-
   render() {
-    console.log(this)
-    console.log(this.props.books)
     const booksReading = this.props.books.filter((book) => book.shelf === "currentlyReading");
-    console.log(booksReading);
     const booksRead = this.props.books.filter((book) => book.shelf === "read");
     const booksWantToRead = this.props.books.filter((book) => book.shelf === "wantToRead");
     const readCategory = [booksReading, booksWantToRead, booksRead];
     const categoryName = ["Currently Reading", "Want to Read", "Read"];
-    console.log(this.props.books)
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -42,7 +37,11 @@ class DisplayBookshelf extends Component {
                           backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
                         </div>
                         <div className="book-shelf-changer">
-                          <BookShelfChanger shelf={book.shelf}/>
+                          <BookShelfChanger
+                            book={book}
+                            changeShelf={this.props.changeShelf}
+
+                            />
                         </div>
                       </div>
                       <div className="book-title">{book.title}</div>
@@ -59,7 +58,6 @@ class DisplayBookshelf extends Component {
             ))}
         </div>
       </div>
-
     )
   }
 }
