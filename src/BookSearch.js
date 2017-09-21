@@ -23,7 +23,7 @@ class BookSearch extends Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <Link className="close-search" to='/' onClick={this.forceUpdate}>Close</Link>
+          <Link className="close-search" to={{pathname: '/', query: this.state.query}} onClick={this.forceUpdate}>Close</Link>
           <div className="search-books-input-wrapper">
             <input type="text"
              placeholder="Search by title or author"

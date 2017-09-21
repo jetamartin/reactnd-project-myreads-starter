@@ -9,6 +9,7 @@ class BookShelfChanger extends Component {
 	}
 
   render() {
+    console.log("%%%%%%%%  Book passed into BookSelfChanger")
     console.log(this.props.book)
     return(
       /* <select defaultValue={this.props.book.shelf} onChange={this.props.changeShelf} > */

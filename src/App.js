@@ -29,56 +29,60 @@ class BooksApp extends React.Component {
     })
   }
 
-retrieveBooks = (query, maxResults) => {
-  console.log("RetrieveBooks/UpdateQuery");
-  console.log(query);
-  BooksAPI.search(query, maxResults).then((queryResults) => {
-    this.setState({ queryResults: queryResults});
-  })
-
-  /* Identify books if any of the books returned in the query results
-  match books already in the MyReads library..if so we will need to set it's shelf equal
-  to the shelf value in the library (Books).
-  Note: If queryResults returns no results no need to continue
-  */
-    if ((this.state.queryResults !== undefined) && (this.state.queryResults.length > 0) ) {
-    var matches =  this.state.queryResults.filter((queryResult) => {
-        return this.state.books.some((inLibrary) => {
-          if (queryResult.id === inLibrary.id) {
-            queryResult.shelf = inLibrary.shelf
-          }
-          return queryResult.id === inLibrary.id
-      })
+  retrieveBooks = (query, maxResults) => {
+    console.log("RetrieveBooks/UpdateQuery");
+    console.log(query);
+    BooksAPI.search(query, maxResults).then((queryResults) => {
+      this.setState({ queryResults: queryResults});
     })
 
-    console.log("Matches: ")
-    console.log(matches);
+    /* Identify books if any of the books returned in the query results
+    match books already in the MyReads library..if so we will need to set it's shelf equal
+    to the shelf value in the library (Books).
+    Note: If queryResults returns no results no need to continue
+    */
+      if ((this.state.queryResults !== undefined) && (this.state.queryResults.length > 0) ) {
+      var matches =  this.state.queryResults.filter((queryResult) => {
+          return this.state.books.some((inLibrary) => {
+            if (queryResult.id === inLibrary.id) {
+              queryResult.shelf = inLibrary.shelf
+            }
+            return queryResult.id === inLibrary.id
+        })
+      })
 
-    // Update bookshelf setting to match setting in MyReads library
-    this.setState({queryResults : matches});
+      console.log("Matches: ")
+      console.log(matches);
 
-    console.log("QueryResults after merging in Bookshelf shelf positions: ")
-    console.log(this.state.queryResults)
+      // Update bookshelf setting to match setting in MyReads library
+      this.setState({queryResults : matches});
 
-    // For books returned in query that aren't in library you need to create a  "shelf" value and set it  to "none"
-    // as books in DB don't have a "shelf" attribute
-    var missingShelfAdded = this.state.queryResults.filter((queryResult) => {
-      if (queryResult.shelf === undefined) {
-        queryResult.shelf = "none"
-      }
-      return queryResult;
-    });
+      console.log("QueryResults after merging in Bookshelf shelf positions: ")
+      console.log(this.state.queryResults)
 
-    console.log("missingShelfAdded: " + missingShelfAdded.length);
-    console.log(missingShelfAdded);
+      // For books returned in query that aren't in library you need to create a  "shelf" value and set it  to "none"
+      // as books in DB don't have a "shelf" attribute
+      var missingShelfAdded = this.state.queryResults.filter((queryResult) => {
+        if (queryResult.shelf === undefined) {
+          queryResult.shelf = "none"
+        }
+        return queryResult;
+      });
 
-    console.log("==> QueryResults (with Shelf info..including 'none') on exit from RetriveBooks")
+      console.log("missingShelfAdded: " + missingShelfAdded.length);
+      console.log(missingShelfAdded);
 
-    // Now update queryResults so that it has
-    this.setState({queryResults: missingShelfAdded})
-    console.log(this.state.queryResults)
-  }
-}
+      console.log("==> QueryResults (with Shelf info..including 'none') on exit from RetriveBooks")
+
+      // Now update queryResults so that it has
+      this.setState({queryResults: missingShelfAdded})
+      console.log(this.state.queryResults)
+    }
+  } // End Of RetrieveBooks Function
+
+  // *** This Function is not currently used: Tried to use setStete to force re-render of UI to reflect books
+  // added in BookSearch. Didn't work so I used forceUpdate in BookSearch when user clicks app back link
+  refreshState = (queryResults) =>  { this.setState(this.state.books: queryResults) }
 
 
   render() {
@@ -92,6 +96,8 @@ retrieveBooks = (query, maxResults) => {
         )}/>
         {console.log("========> QueryResults: Called from within App.js JSX")}
         {console.log(this.state.queryResults)}
+        {/* Note onClick method not currently used because it's not achieving desired results.
+        Leaving it  in right now as placeholder*/}
         <Route path="/search" render={() => (
           <BookSearch
             queryResults={this.state.queryResults}
