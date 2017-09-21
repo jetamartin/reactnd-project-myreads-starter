@@ -34,11 +34,11 @@ class BookSearch extends Component {
         </div>
 
         <div className="search-books-results">
-        { this.state.query.length > 0 &&
+        { (this.state.query !== undefined) && (this.state.query.length > 0) &&
           <ol className="books-grid">
           {console.log("QueryResults passed into BookSearch: ")}
           {console.log(this.props.queryResults)}
-          {this.props.queryResults.map((book) => (
+          { ((this.props.queryResults) && (this.props.queryResults.length > 0)) && this.props.queryResults.map((book) => (
             <li key={book.id}>
               <div className="book">
                 <div className="book-top">

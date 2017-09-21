@@ -35,52 +35,49 @@ retrieveBooks = (query, maxResults) => {
   BooksAPI.search(query, maxResults).then((queryResults) => {
     this.setState({ queryResults: queryResults});
   })
-  // console.log("Orig queryResults")
-  // console.log(this.state.queryResults);
-  // console.log(this.state.books);
-
 
   /* Identify books if any of the books returned in the query results
-  are already in the library..if so we will need to set it's shelf equal
-  to the shelf value in the library (Books)
+  match books already in the MyReads library..if so we will need to set it's shelf equal
+  to the shelf value in the library (Books).
+  Note: If queryResults returns no results no need to continue
   */
-  var matches = this.state.queryResults.filter((queryResult) => {
-      return this.state.books.some((inLibrary) => {
-        if (queryResult.id === inLibrary.id) {
-          queryResult.shelf = inLibrary.shelf
-        }
-        // else {
-        //   queryResult.shelf = "none"
-        // }
-        return queryResult.id === inLibrary.id
+    if ((this.state.queryResults !== undefined) && (this.state.queryResults.length > 0) ) {
+    var matches =  this.state.queryResults.filter((queryResult) => {
+        return this.state.books.some((inLibrary) => {
+          if (queryResult.id === inLibrary.id) {
+            queryResult.shelf = inLibrary.shelf
+          }
+          return queryResult.id === inLibrary.id
+      })
     })
-  })
 
+    console.log("Matches: ")
+    console.log(matches);
 
+    // Update bookshelf setting to match setting in MyReads library
+    this.setState({queryResults : matches});
 
-  console.log("Matches: ")
-  console.log(matches);
+    console.log("QueryResults after merging in Bookshelf shelf positions: ")
+    console.log(this.state.queryResults)
 
-  // Synch up
-  this.setState({queryResults : matches});
-  console.log("QueryResults after merging in Bookshelf shelf positions: ")
-  console.log(this.state.queryResults)
+    // For books returned in query that aren't in library you need to create a  "shelf" value and set it  to "none"
+    // as books in DB don't have a "shelf" attribute
+    var missingShelfAdded = this.state.queryResults.filter((queryResult) => {
+      if (queryResult.shelf === undefined) {
+        queryResult.shelf = "none"
+      }
+      return queryResult;
+    });
 
-  var missingShelfAdded = this.state.queryResults.filter((queryResult) => {
-    if (queryResult.shelf === undefined) {
-      queryResult.shelf = "none"
-    }
-    return queryResult;
-  });
+    console.log("missingShelfAdded: " + missingShelfAdded.length);
+    console.log(missingShelfAdded);
 
+    console.log("==> QueryResults (with Shelf info..including 'none') on exit from RetriveBooks")
 
-
-  console.log("missingShelfAdded: " + missingShelfAdded.length);
-  console.log(missingShelfAdded);
-
-  console.log("QueryResults on exit from RetriveBooks")
-  this.setState({queryResults: missingShelfAdded})
-
+    // Now update queryResults so that it has
+    this.setState({queryResults: missingShelfAdded})
+    console.log(this.state.queryResults)
+  }
 }
 
 
