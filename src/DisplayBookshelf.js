@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import BookShelfChanger from './BookShelfChanger'
 
@@ -37,6 +38,7 @@ class DisplayBookshelf extends Component {
                           backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
                         </div>
                         <div className="book-shelf-changer">
+                         
                           <BookShelfChanger
                             book={book}
                             changeShelf={this.props.changeShelf}
@@ -45,7 +47,7 @@ class DisplayBookshelf extends Component {
                         </div>
                       </div>
                       <div className="book-title">{book.title}</div>
-                      {book.authors.map((author, index) => (
+                      {book.authors && book.authors.map((author, index) => (
                           <div key={index} className="book-authors">{author}</div>
                       ))}
                     </div>
@@ -56,6 +58,9 @@ class DisplayBookshelf extends Component {
               </div>
             </div>
             ))}
+            <div className="open-search">
+              <Link to="/search" onClick={() => {}}>Add a book</Link>
+            </div>
         </div>
       </div>
     )

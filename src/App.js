@@ -1,22 +1,25 @@
 import React from 'react'
+import { Route } from 'react-router-dom'
 import DisplayBookshelf from './DisplayBookshelf'
+import BookSearch from './BookSearch'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    books: []
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
+    books: [],
+    queryResults: []
   }
 
   updateBookShelf = (book) => { return (event) => {
         book.shelf = event.target.value
+        console.log(book.title)
+        console.log(event.target.value)
         this.setState({book: book});
+        BooksAPI.update(book,event.target.value).then((book) => {
+          this.setState({book: book})
+        })
+        // this.setState({queryResults: book})
   } }
 
   // API request to get books from DB
@@ -25,13 +28,82 @@ class BooksApp extends React.Component {
       this.setState({ books: books})
     })
   }
+
+retrieveBooks = (query, maxResults) => {
+  console.log("RetrieveBooks/UpdateQuery");
+  console.log(query);
+  BooksAPI.search(query, maxResults).then((queryResults) => {
+    this.setState({ queryResults: queryResults});
+  })
+  // console.log("Orig queryResults")
+  // console.log(this.state.queryResults);
+  // console.log(this.state.books);
+
+
+  /* Identify books if any of the books returned in the query results
+  are already in the library..if so we will need to set it's shelf equal
+  to the shelf value in the library (Books)
+  */
+  var matches = this.state.queryResults.filter((queryResult) => {
+      return this.state.books.some((inLibrary) => {
+        if (queryResult.id === inLibrary.id) {
+          queryResult.shelf = inLibrary.shelf
+        }
+        // else {
+        //   queryResult.shelf = "none"
+        // }
+        return queryResult.id === inLibrary.id
+    })
+  })
+
+
+
+  console.log("Matches: ")
+  console.log(matches);
+
+  // Synch up
+  this.setState({queryResults : matches});
+  console.log("QueryResults after merging in Bookshelf shelf positions: ")
+  console.log(this.state.queryResults)
+
+  var missingShelfAdded = this.state.queryResults.filter((queryResult) => {
+    if (queryResult.shelf === undefined) {
+      queryResult.shelf = "none"
+    }
+    return queryResult;
+  });
+
+
+
+  console.log("missingShelfAdded: " + missingShelfAdded.length);
+  console.log(missingShelfAdded);
+
+  console.log("QueryResults on exit from RetriveBooks")
+  this.setState({queryResults: missingShelfAdded})
+
+}
+
+
   render() {
     return (
       <div className="app">
-        <DisplayBookshelf
-          books={this.state.books}
-          changeShelf={this.updateBookShelf}
-        />
+        <Route exact path="/" render={() => (
+          <DisplayBookshelf
+            books={this.state.books}
+            changeShelf={this.updateBookShelf}
+          />
+        )}/>
+        {console.log("========> QueryResults: Called from within App.js JSX")}
+        {console.log(this.state.queryResults)}
+        <Route path="/search" render={() => (
+          <BookSearch
+            queryResults={this.state.queryResults}
+            onSearch={this.retrieveBooks}
+            changeShelf={this.updateBookShelf}
+            onClick={this.refreshState}
+          />
+        )} />
+
       </div>
     )
   }
