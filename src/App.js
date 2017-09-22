@@ -15,11 +15,12 @@ class BooksApp extends React.Component {
         book.shelf = event.target.value
         console.log(book.title)
         console.log(event.target.value)
-        this.setState({book: book});
+        // this.setState({book: book});
         BooksAPI.update(book,event.target.value).then((book) => {
           this.setState({book: book})
+
         })
-        // this.setState({queryResults: book})
+        // this.setState({books: this.props.queryResults})
   } }
 
   // API request to get books from DB
@@ -36,6 +37,16 @@ class BooksApp extends React.Component {
     // console.log(this.state.books)
 
     BooksAPI.search(query, maxResults).then((queryResults) => {
+      // queryResults.forEach((queryResult) => {
+      //       this.state.books.forEach((book) => {
+      //         if (book.id === queryResult.id) {
+      //           queryResult.shelf = book.shelf;
+      //         } else {
+      //             queryResult.shelf = 'none'
+      //         }
+      //       })
+      //     })
+      // this.setState({ queryResults : queryResults})
       queryResults.map((queryResult) => {
       return this.state.books.map((book) => {
         if (book.id === queryResult.id) {
@@ -59,9 +70,15 @@ class BooksApp extends React.Component {
   } // End of retrieveBooks function
 
 
+
   // *** This Function is not currently used: Tried to use setStete to force re-render of UI to reflect books
   // added in BookSearch. Didn't work so I used forceUpdate in BookSearch when user clicks app back link
-  refreshState = (queryResults) =>  { this.setState(this.state.books: queryResults) }
+
+  refreshState = (queryResults) =>  {
+    this.setState({ books: queryResults} )
+  }
+
+
 
 
   render() {
@@ -84,7 +101,7 @@ class BooksApp extends React.Component {
             queryResults={this.state.queryResults}
             onSearch={this.retrieveBooks}
             changeShelf={this.updateBookShelf}
-            onClick={this.refreshState}
+            refreshState={this.refreshState}
           />
         )} />
 

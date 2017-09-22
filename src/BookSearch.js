@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import BookShelfChanger from './BookShelfChanger'
 
 class BookSearch extends Component {
-
   state = {
     query: ''
   }
@@ -12,7 +11,7 @@ class BookSearch extends Component {
     this.setState({ query: query.trim() })
     console.log("Function: Update Query")
     console.log("Query: " + query)
-    this.props.onSearch(query, 20)
+    this.props.onSearch(query, 20);
   }
 
   clearQuery = (query) => {
@@ -23,7 +22,7 @@ class BookSearch extends Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <Link className="close-search" to={{pathname: '/', query: this.state.query}} onClick={this.forceUpdate}>Close</Link>
+          <Link className="close-search" to={'/'} onClick={this.forceUpdate}>Close</Link>
           <div className="search-books-input-wrapper">
             <input type="text"
              placeholder="Search by title or author"
