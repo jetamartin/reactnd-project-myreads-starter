@@ -9,17 +9,9 @@ class BookShelfChanger extends Component {
 	}
 
   render() {
-    console.log("%%%%%%%%  Book passed into BookSelfChanger")
-    console.log(this.props.book)
+    console.log("%%%%%%%%  Book shelf passed into BookSelfChanger")
+    console.log(this.props.book.shelf)
     return(
-      /* <select defaultValue={this.props.book.shelf} onChange={this.props.changeShelf} > */
-			/*<button onClick={() => onDeleteContact(contact)} className='contact-remove'> */
-      //<select defaultValue={this.props.book.shelf} onChange={() => this.props.changeShelf(this.props.book)} >
-
-      // <select defaultValue={this.props.book.shelf} onChange={this.props.changeShelf} >
-      //  <select defaultValue={this.props.book.shelf} onChange={this.handleChange(this.props.book)} >
-
-
     <select value={this.props.book.shelf} onChange={this.props.changeShelf(this.props.book)}>
         <option value="none" disabled>Move to...</option>
         <option value="currentlyReading">Currently Reading</option>
