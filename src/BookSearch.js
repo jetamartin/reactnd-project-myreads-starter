@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import BookShelfChanger from './BookShelfChanger'
+import PropTypes from 'prop-types'
 
 class BookSearch extends Component {
+  static propTypes = {
+    queryResults: PropTypes.array.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    changeShelf: PropTypes.func.isRequired
+  }
+
+
   state = {
     query: ''
   }
