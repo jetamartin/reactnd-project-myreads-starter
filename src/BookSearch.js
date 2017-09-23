@@ -16,12 +16,12 @@ class BookSearch extends Component {
   }
 
   updateQuery = (query) => {
-    this.setState({ query: query.trim() })
+    this.setState({ query: query.trim() });
     this.props.onSearch(query, 20);
   }
 
   clearQuery = (query) => {
-    this.setState( { query: ''})
+    this.setState( { query: ''});
   }
 
   render() {

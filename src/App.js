@@ -12,15 +12,15 @@ class BooksApp extends React.Component {
   }
 
   updateBookShelf = (book) => { return (event) => {
-        book.shelf = event.target.value
+        book.shelf = event.target.value;
         // this.setState({book: book});
         BooksAPI.update(book,event.target.value).then((book) => {
-          this.setState({book: book})
+          this.setState({book: book});
 
 
       }).then(() => {
           BooksAPI.getAll().then((books) => {
-          this.setState({ books: books})
+          this.setState({ books: books});
         })
       })
   } }
@@ -28,7 +28,7 @@ class BooksApp extends React.Component {
   // API request to get books from DB
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState({ books: books})
+      this.setState({ books: books});
     })
   }
 
@@ -41,23 +41,20 @@ class BooksApp extends React.Component {
             if (book.id === queryResult.id) {
               queryResult.shelf = book.shelf;
             }
-            return queryResults
+            return queryResults;
           })
         }) // End of queryResults.map function
 
-        var addMissingShelf = () => queryResults.map((queryResult) => {
+        let addMissingShelf = () => queryResults.map((queryResult) => {
             if (queryResult.shelf === undefined) {
                 queryResult.shelf = "none";
               }
               return queryResults;
             }
           ) // End addMissingShelf function
-
           addMissingShelf();
-
-
         }
-        this.setState({ queryResults : queryResults})
+        this.setState({ queryResults : queryResults});
       }) // End of BooksAPI function
     }
   } // End of retrieveBooks function
