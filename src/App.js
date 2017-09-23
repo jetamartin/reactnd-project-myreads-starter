@@ -35,24 +35,28 @@ class BooksApp extends React.Component {
   retrieveBooks = (query, maxResults) => {
     if (query.length > 0 ) {
       BooksAPI.search(query, maxResults).then((queryResults) => {
-        queryResults.map((queryResult) => {
-        return this.state.books.map((book) => {
-          if (book.id === queryResult.id) {
-            queryResult.shelf = book.shelf;
-          }
-          return queryResults
-        })
-      }) // End of queryResults.map function
-
-      var addMissingShelf = () => queryResults.map((queryResult) => {
-          if (queryResult.shelf === undefined) {
-              queryResult.shelf = "none";
+        if (queryResults.length !== undefined) {
+          queryResults.map((queryResult) => {
+          return this.state.books.map((book) => {
+            if (book.id === queryResult.id) {
+              queryResult.shelf = book.shelf;
             }
-            return queryResults;
-          }
-        ) // End addMissingShelf function
+            return queryResults
+          })
+        }) // End of queryResults.map function
 
-        addMissingShelf();
+        var addMissingShelf = () => queryResults.map((queryResult) => {
+            if (queryResult.shelf === undefined) {
+                queryResult.shelf = "none";
+              }
+              return queryResults;
+            }
+          ) // End addMissingShelf function
+
+          addMissingShelf();
+
+
+        }
         this.setState({ queryResults : queryResults})
       }) // End of BooksAPI function
     }
