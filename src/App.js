@@ -13,14 +13,16 @@ class BooksApp extends React.Component {
 
   updateBookShelf = (book) => { return (event) => {
         book.shelf = event.target.value
-        console.log(book.title)
-        console.log(event.target.value)
         // this.setState({book: book});
         BooksAPI.update(book,event.target.value).then((book) => {
           this.setState({book: book})
 
+
+      }).then(() => {
+          BooksAPI.getAll().then((books) => {
+          this.setState({ books: books})
         })
-        // this.setState({books: this.props.queryResults})
+      })
   } }
 
   // API request to get books from DB
@@ -31,55 +33,30 @@ class BooksApp extends React.Component {
   }
 
   retrieveBooks = (query, maxResults) => {
-    // console.log("RetrieveBooks/UpdateQuery");
-    // console.log(query);
-    // console.log("Books State");
-    // console.log(this.state.books)
-
-    BooksAPI.search(query, maxResults).then((queryResults) => {
-      // queryResults.forEach((queryResult) => {
-      //       this.state.books.forEach((book) => {
-      //         if (book.id === queryResult.id) {
-      //           queryResult.shelf = book.shelf;
-      //         } else {
-      //             queryResult.shelf = 'none'
-      //         }
-      //       })
-      //     })
-      // this.setState({ queryResults : queryResults})
-      queryResults.map((queryResult) => {
-      return this.state.books.map((book) => {
-        if (book.id === queryResult.id) {
-          queryResult.shelf = book.shelf;
-        }
-        return queryResults
-      })
-    }) // End of queryResults.map function
-
-    var addMissingShelf = () => queryResults.map((queryResult) => {
-        if (queryResult.shelf === undefined) {
-            queryResult.shelf = "none";
+    if (query.length > 0 ) {
+      BooksAPI.search(query, maxResults).then((queryResults) => {
+        queryResults.map((queryResult) => {
+        return this.state.books.map((book) => {
+          if (book.id === queryResult.id) {
+            queryResult.shelf = book.shelf;
           }
-          return queryResults;
-        }
-      ) // End addMissingShelf function
+          return queryResults
+        })
+      }) // End of queryResults.map function
 
-      addMissingShelf();
-      this.setState({ queryResults : queryResults})
-    }) // End of BooksAPI function
+      var addMissingShelf = () => queryResults.map((queryResult) => {
+          if (queryResult.shelf === undefined) {
+              queryResult.shelf = "none";
+            }
+            return queryResults;
+          }
+        ) // End addMissingShelf function
+
+        addMissingShelf();
+        this.setState({ queryResults : queryResults})
+      }) // End of BooksAPI function
+    }
   } // End of retrieveBooks function
-
-
-
-  // *** This Function is not currently used: Tried to use setStete to force re-render of UI to reflect books
-  // added in BookSearch. Didn't work so I used forceUpdate in BookSearch when user clicks app back link
-
-  refreshState = (queryResults) =>  {
-    this.setState({ books: queryResults} )
-  }
-
-
-
 
   render() {
     return (
@@ -91,17 +68,11 @@ class BooksApp extends React.Component {
             changeShelf={this.updateBookShelf}
           />
         )}/>
-        {console.log(this.state.books)}
-        {console.log("========> QueryResults: Called from within App.js JSX")}
-        {console.log(this.state.queryResults)}
-        {/* Note onClick method not currently used because it's not achieving desired results.
-        Leaving it  in right now as placeholder*/}
         <Route path="/search" render={() => (
           <BookSearch
             queryResults={this.state.queryResults}
             onSearch={this.retrieveBooks}
             changeShelf={this.updateBookShelf}
-            refreshState={this.refreshState}
           />
         )} />
 

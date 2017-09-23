@@ -9,8 +9,6 @@ class BookShelfChanger extends Component {
 	}
 
   render() {
-    console.log("%%%%%%%%  Book shelf passed into BookSelfChanger")
-    console.log(this.props.book.shelf)
     return(
     <select value={this.props.book.shelf} onChange={this.props.changeShelf(this.props.book)}>
         <option value="blank" disabled>Move to...</option>

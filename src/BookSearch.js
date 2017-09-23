@@ -9,8 +9,6 @@ class BookSearch extends Component {
 
   updateQuery = (query) => {
     this.setState({ query: query.trim() })
-    console.log("Function: Update Query")
-    console.log("Query: " + query)
     this.props.onSearch(query, 20);
   }
 
@@ -22,7 +20,7 @@ class BookSearch extends Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <Link className="close-search" to={'/'} onClick={this.forceUpdate}>Close</Link>
+          <Link className="close-search" to={'/'} >Close</Link>
           <div className="search-books-input-wrapper">
             <input type="text"
              placeholder="Search by title or author"
@@ -35,8 +33,7 @@ class BookSearch extends Component {
         <div className="search-books-results">
         { (this.state.query !== undefined) && (this.state.query.length > 0) &&
           <ol className="books-grid">
-          {console.log("QueryResults passed into BookSearch: ")}
-          {console.log(this.props.queryResults)}
+
           { ((this.props.queryResults) && (this.props.queryResults.length > 0)) && this.props.queryResults.map((book) => (
             <li key={book.id}>
               <div className="book">
@@ -47,8 +44,7 @@ class BookSearch extends Component {
                        backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
                   </div>
                 }
-                {console.log("Book passed from BookSearch into BookSelfChanger")}
-                {console.log(book)}
+
                   <div className="book-shelf-changer">
                     <BookShelfChanger
                       book={book}
@@ -57,7 +53,6 @@ class BookSearch extends Component {
                   </div>
                 </div>
                 <div className="book-title">{book.title}</div>
-                {/*console.log(book.authors)*/}
                   {book.authors !== undefined && book.authors.map((author, index) => (
                       <div key={index} className="book-authors">{author}
                       </div>
