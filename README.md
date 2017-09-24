@@ -1,10 +1,10 @@
 # MyReads Project:
 
-This is the repository that contains the code for The MyReads app. The MyReads project is a React application that was developed as the final project for Udacity's React Fundamentals course. Students of the course were responsible for developing the core react elements of the front end of this single page application. The backend server and the APIs that allow the app to search for new books, to add/remove books from the library and retrieve books saved in the library were provided by Udacity.
+This is the repository that contains the code for the **MyReads** app. The MyReads project is a React application that was developed as the final project for Udacity's React Fundamentals course. Students of the course were responsible for developing the core react elements of the front end of this single page application. The backend server and the APIs that allow the app to search for new books, to add/remove books from the library and retrieve books saved in the library were provided by Udacity.
 
 
 ## Application Overview:
-MyReads is a personal library application that allows a user to view, categorize and add/remove books to their personal MyReads library. Additionally users can search for books via the internet by author or title that they can then add to their library. Books in the library are categorized and displayed on one of three bookshelves: "Currently Reading", "Want to Read" and "Read". Users can easily move a book to a different bookshelf within their library or remove it completely from their library.
+**MyReads** is a personal library application that allows a user to view, categorize and add/remove books to their personal MyReads library. Additionally users can search for books via the internet by author or title that they can then add to their library. Books in the library are categorized and displayed on one of three bookshelves: "Currently Reading", "Want to Read" and "Read". Users can easily move a book to a different bookshelf within their library or remove it completely from their library.
 
 # Getting Started:
 The following instructions will the project up and running on your local machine for development and testing purposes.
