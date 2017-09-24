@@ -22,7 +22,7 @@ Once Node is installed you need to run the following commands:
 
 * `npm install` - this will install all project dependencies located in the package.json file.
 
-* `npm start` - this will start the development and open a new browser window pointed to localhost:3000 where you can start interacting with the app
+* `npm start` - this will start the development server and open a new browser window pointed to localhost:3000 where you can start interacting with the app
 
 
 ## Important
