@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import BookShelfChanger from './BookShelfChanger'
 import PropTypes from 'prop-types'
 
+/* This controlled component allows the user to search for books by entering in their search criteria */
+
 class BookSearch extends Component {
   static propTypes = {
     queryResults: PropTypes.array.isRequired,
@@ -10,16 +12,20 @@ class BookSearch extends Component {
     changeShelf: PropTypes.func.isRequired
   }
 
-
   state = {
     query: ''
   }
 
+  /* This method captures the query string entered by the user and
+  it calls the "retrieveBooks" function (in App.js) to execute the BookSearch
+  and assign a shelf property to the returned results
+  Note the search reasults are limited to 20 books. */
   updateQuery = (query) => {
     this.setState({ query: query.trim() });
     this.props.onSearch(query, 20);
   }
-
+  // This method is not currently used. Kept for future purposes if
+  // I add an clear button to search input area
   clearQuery = (query) => {
     this.setState( { query: ''});
   }

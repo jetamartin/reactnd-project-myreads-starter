@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import BookShelfChanger from './BookShelfChanger'
 
-
+/* This component is responsible for displaying all books that are currently in the myReads library
+and displayig them on their respective shelf. It also calls the BookShelfChanger component that allows
+the user to change the books shelf location  */
 class DisplayBookshelf extends Component {
   static propTypes = {
 		books: PropTypes.array.isRequired,
@@ -38,7 +40,7 @@ class DisplayBookshelf extends Component {
                           backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}>
                         </div>
                         <div className="book-shelf-changer">
-                         
+
                           <BookShelfChanger
                             book={book}
                             changeShelf={this.props.changeShelf}
@@ -58,6 +60,9 @@ class DisplayBookshelf extends Component {
               </div>
             </div>
             ))}
+            {/* This element (displayed as a "+" at the bottom of the page allows the user to navigate
+                to the '/search' screen ()
+            */}
             <div className="open-search">
               <Link to="/search" onClick={() => {}}>Add a book</Link>
             </div>
